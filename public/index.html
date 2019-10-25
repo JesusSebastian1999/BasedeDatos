@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Alumnos</title>
+    <title>Juegos</title>
  
     <!-- Ícono para la página web. -->
     <link rel="icon" sizes="32x32" href="favicon.ico">
@@ -35,7 +35,7 @@
   <body>
     <header>
       <a href="pasatiempoNuevo.html">Agregar&hellip;</a>
-      <h1>Alumnos</h1>
+      <h1>Juegos</h1>
     </header>
     <ul id="ul">
       <li><progress max="100">Cargando…</progress></li>
@@ -51,7 +51,7 @@
         .catch(error)
         .then(consulta);
       function consulta() {
-        firebase.firestore().collection("ALUMNOS").onSnapshot(
+        firebase.firestore().collection("JUEGOS").onSnapshot(
           querySnapshot => {
             ul.innerHTML = "";
             querySnapshot.forEach(doc => {
@@ -59,7 +59,7 @@
               ul.innerHTML += /*html*/
                 `<li>
                 <a href="pasatiempo.html?id=${url(doc.id)}">
-                  ${cod(modelo.NOMBRE+" "+modelo.APELLIDO_PATERNO+" "+modelo.APELLIDO_MATERNO)}
+                  ${cod(modelo.NOMBRE)}
                 </a>
               </li>`;
             });

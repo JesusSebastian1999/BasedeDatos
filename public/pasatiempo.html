@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Alumno</title>
+    <title>Juego</title>
     <link rel="icon" sizes="32x32" href="favicon.ico">
-    <meta name="theme-color" content="#ffcb2d">
+    <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="estilos.css">
@@ -22,10 +22,11 @@
         <h1><output id="título"><progress max="100">Cargando…</progress></h1>
       </header>
       <p><input id="nombre" type="text" placeholder="Nombre" required></p>
-      <p><input id="apellido_paterno" type="text" placeholder="Apellido Paterno" max="50" min="10" required></p>
-      <p><input id="apellido_materno" type="text" placeholder="Apellido Materno" max="50" min="10" required></p>
-      <p>Matricula</p>
-      <p><input id="matricula" type="number" maxlength="10" minlength="5" required></p>
+      <p><input id="plataforma" type="text" placeholder="Plataformas del juego" max="50" min="10" required></p>
+      <p>Fecha de lanzamiento</p>
+      <p><input id="fecha" type="date" max="50" min="10" required></p>
+      <p>Precio</p>
+      <p><input id="precio" type="number" maxlength="10" minlength="5" required></p>
       <footer is="mi-footer"></footer>
     </form>
     
@@ -42,15 +43,15 @@
         .then(busca);
       async function busca() {
         try {
-          const doc = await firestore.collection("ALUMNOS").doc(id).get();
+          const doc = await firestore.collection("JUEGOS").doc(id).get();
           if (doc.exists) {
             const modelo = doc.data();
             document.title = modelo.NOMBRE;
             título.value = modelo.NOMBRE;
             nombre.value = modelo.NOMBRE;
-            apellido_paterno.value = modelo.APELLIDO_PATERNO;
-            apellido_materno.value = modelo.APELLIDO_MATERNO;
-            matricula.value = modelo.MATRICULA;
+            plataforma.value = modelo.PLATAFORMA;
+            fecha.value = modelo.FECHA;
+            precio.value = modelo.PRECIO;
             vista.addEventListener("submit", guarda);
             eliminar.addEventListener("click", elimina);
           } else {
@@ -63,9 +64,12 @@
       async function guarda(evt) {
         try {
           evt.preventDefault();
-          const TEMA_NOMBRE = nombre.value.trim();
-          const modelo = { TEMA_NOMBRE };
-          await firestore.collection("ALUMNOS").doc(id).set(modelo);
+          const NOMBRE = nombre.value.trim();
+          const PLATAFORMA = plataforma.value.trim();
+          const FECHA = fecha.value.trim();
+          const PRECIO = precio.value.trim();
+          const modelo = { NOMBRE, PLATAFORMA, FECHA, PRECIO };
+          await firestore.collection("JUEGOS").doc(id).set(modelo);
           document.location = "index.html";
         } catch (e) {
           error(e)
@@ -73,7 +77,7 @@
       }
       async function elimina() {
         try {
-          await firestore.collection("ALUMNOS").doc(id).delete();
+          await firestore.collection("JUEGOS").doc(id).delete();
           document.location = "index.html";
         } catch (e) {
           error(e)

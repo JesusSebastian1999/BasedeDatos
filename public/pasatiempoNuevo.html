@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Alumno Nuevo</title>
     <link rel="icon" sizes="32x32" href="favicon.ico">
-    <meta name="theme-color" content="#ffcb2d">
+    <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="estilos.css">
@@ -17,13 +17,14 @@
       <header>
         <a href="index.html">Cancelar</a>
         <button type="submit">Guardar</button>
-        <h1>Alumno Nuevo</h1>
+        <h1>Juego Nuevo</h1>
       </header>
-      <p><input id="nombre" type="text" placeholder="Nombre" max="50" min="10" required></p>
-      <p><input id="apellido_paterno" type="text" placeholder="Apellido Paterno" max="50" min="10" required></p>
-      <p><input id="apellido_materno" type="text" placeholder="Apellido Materno" max="50" min="10" required></p>
-      <p>Matricula</p>
-      <p><input id="matricula" type="number" maxlength="10" minlength="5" required></p>
+      <p><input id="nombre" type="text" placeholder="Nombre del juego" max="50" min="10" required></p>
+      <p><input id="plataforma" type="text" placeholder="Plataformas del juego" max="50" min="10" required></p>
+      <p>Fecha de lanzamiento</p>
+      <p><input id="fecha" type="date" max="50" min="10" required></p>
+      <p>Precio</p>
+      <p><input id="precio" type="number" maxlength="10" minlength="5" required></p>
       <footer is="mi-footer"></footer>
     </form>
     <script src="/__/firebase/7.2.0/firebase-app.js"></script>
@@ -39,11 +40,11 @@
         try {
           evt.preventDefault();
           const NOMBRE = nombre.value.trim();
-          const APELLIDO_PATERNO = apellido_paterno.value.trim();
-          const APELLIDO_MATERNO = apellido_materno.value.trim();
-          const MATRICULA = matricula.value.trim();
-          const modelo = { NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO,MATRICULA };
-          await firestore.collection("ALUMNOS").add(modelo);
+          const PLATAFORMA = plataforma.value.trim();
+          const FECHA = fecha.value.trim();
+          const PRECIO = precio.value.trim();
+          const modelo = { NOMBRE,PLATAFORMA,FECHA,PRECIO };
+          await firestore.collection("JUEGOS").add(modelo);
           document.location = "index.html";
         } catch (e) {
           error(e)
