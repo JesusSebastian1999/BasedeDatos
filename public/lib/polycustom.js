@@ -1,5 +1,13 @@
-if (this.customElements)
-  try { customElements.define('built-in', document.createElement('p').constructor, { 'extends': 'p' }) }
-  catch (s) { document.write(unescape('%3Cscript%20src%3D%22https%3A//unpkg.com/@ungap/custom-elements-builtin%22%3E%3C/script%3E')) }
-else
-  document.write(unescape('%3Cscript%20src%3D%22https%3A//unpkg.com/document-register-element%22%3E%3C/script%3E'));
+if (this.customElements) {
+  try {
+    // detecta browsers que no extienden elementos built-in
+    customElements.define('built-in', document.createElement('p').constructor,
+      { 'extends': 'p' });
+  } catch (_) {
+    // solo WebKit or Safari
+    document.write('<script src="lib/min.js"><\x2fscript>');
+  }
+} else {
+  // solo browsers viejos
+  document.write('<script src="lib/document-register-element.js"><\x2fscript>');
+}

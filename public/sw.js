@@ -1,4 +1,4 @@
-const CACHE = "basededatos-7fbfa";
+const CACHE = "basededatos-7fbfa-1";
 // Archivos requeridos para que la aplicación funcione fuera de línea.
 const ARCHIVOS = [
   "lib/document-register-element.js",
@@ -6,7 +6,6 @@ const ARCHIVOS = [
   "lib/polycustom.js",
   "lib/registraServiceWorker.js",
   "lib/util.js",
-  "lib/Op.js",
   "estilos.css",
   "favicon.ico",
   "icono.png",
@@ -21,18 +20,18 @@ const ARCHIVOS = [
   '/'
 ];
  
-self.addEventListener("install",
-  /** @param {InstallEvent} evt */
-  evt => {
-    console.log("Service Worker instalado.");
-    // Realiza la instalación: carga los archivos requeridos en la caché.
-    evt.waitUntil(cargaCache());
-  });
+self.addEventListener("install", evt => {
+  console.log("Service Worker instalado.");
+  // Realiza la instalación: carga los archivos requeridos en la caché.
+  // @ts-ignore
+  evt.waitUntil(cargaCache());
+});
+ 
 // Toma de la caché archivos solicitados. Los otros son descargados.
-self.addEventListener("fetch",
-  /** @param {FetchEvent} evt */
-  evt => {
+self.addEventListener("fetch", evt => {
+    // @ts-ignore
     if (evt.request.method === "GET") {
+      // @ts-ignore
       evt.respondWith(usaCache(evt));
     }
   });
@@ -44,17 +43,13 @@ async function cargaCache() {
   await cache.addAll(ARCHIVOS);
   console.log("Cache cargado: " + CACHE);
 }
+ 
 async function usaCache(evt) {
   const cache = await caches.open(CACHE);
   const response = await cache.match(evt.request, { ignoreSearch: true });
   if (response) {
-    actualizaResponse(cache, evt.request);
     return response;
   } else {
     return fetch(evt.request);
   }
-}
-async function actualizaResponse(cache, request) {
-  const response = await fetch(request);
-  cache.put(request, response.clone());
 }

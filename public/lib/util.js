@@ -1,5 +1,3 @@
-import { op } from "./Op.js";
- 
 /** Muestra una instancia de Error en la consola y muestra un diálogo
  * alert con la propiedad message del objeto.
  * @param {Error} e instancia que contiene el error. */
@@ -14,7 +12,7 @@ export function error(e) {
  * @returns {string} un texto que no puede interpretarse como HTML. */
 export function cod(texto) {
   let div = document.createElement('div');
-  div.innerText = op(texto).get().toString();
+  div.innerText = (texto||"").toString();
   return div.innerHTML;
 }
  
